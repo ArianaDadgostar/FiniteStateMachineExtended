@@ -18,7 +18,6 @@ class Program
             #if !VER1
             if(!hexChars.Contains(c)) return false;
             #endif
-
         }
         return true;
     }

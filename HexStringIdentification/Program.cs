@@ -3,12 +3,22 @@
 using System.ComponentModel.Design.Serialization;
 
 using System;
+using System.Transactions;
+using System.Data;
 
 class Program
 {
     enum CheckVal
     {
         Beginning,
+        Contains1,
+        Contains10,
+        Contains101
+    };
+
+    enum HexState
+    {
+        ContainsNone,
         Contains1,
         Contains10,
         Contains101
@@ -30,22 +40,6 @@ class Program
         return true;
     }
 
-    static bool IsBinaryAndContainsVal(string input, char[] binaryChars)
-    {
-        bool contains1 = false;
-        bool contains0 = false;
-        foreach(char c in input)
-        {
-            if(!binaryChars.Contains(c)) return false;
-            
-            if(contains1 && contains0 && c == '1') return true;
-
-            contains0 = (contains1 && !contains0 && c == '0') ? true : false;
-            contains1 = (!contains1 && (c == '1' || !contains0)) ? true : contains1;
-        }
-        return false;
-    }
-
     static bool IsBinaryUpdated(string input, char[] binaryChars, CheckVal checkVal)
     {
         foreach(char c in input)
@@ -57,7 +51,6 @@ class Program
                 case CheckVal.Beginning:
                     checkVal = (c == '1') ? CheckVal.Contains1 : CheckVal.Beginning;
                     break;
-
                 case CheckVal.Contains1:
                     checkVal = (c == '0') ? CheckVal.Contains10 : CheckVal.Contains1;
                     break;
@@ -71,6 +64,34 @@ class Program
         if(checkVal == CheckVal.Contains101) return true;
         return false;
     }
+
+    struct Hex2DTable
+    {
+        public HexState state;
+        public char current;
+    }
+
+    static bool IsHex2DTable(string input, char[] hexChars, Hex2DTable hex2D)
+    {
+        Dictionary<Hex2DTable, HexState> transitions = new Dictionary<Hex2DTable, HexState>
+        {
+            { new Hex2DTable { state = HexState.ContainsNone, current = '1' }, HexState.Contains1 },
+            { new Hex2DTable { state = HexState.Contains1, current = '0' }, HexState.Contains10 },
+            { new Hex2DTable { state = HexState.Contains10, current = '1' }, HexState.Contains101 },
+        };
+        
+        foreach(char c in input)
+        {
+            if(!hexChars.Contains(c)) return false;
+            else if(hex2D.state == HexState.Contains101) continue;
+
+            hex2D.current = c;
+            hex2D.state = (transitions.ContainsKey(hex2D)) ? transitions[hex2D] : HexState.ContainsNone;
+        }
+        if(hex2D.state == HexState.Contains101) return true;
+
+        return false;
+    }
     
     static void Main(string[] args)
     {
@@ -79,7 +100,12 @@ class Program
         //string input = "12345";
         string binaryInput = "101010101";
         //Console.WriteLine(IsHexString(input, hexChars));
+
         CheckVal checkVal = CheckVal.Beginning;
-        Console.WriteLine(IsBinaryUpdated(binaryInput, new char[] {'0', '1'}, checkVal));
+        //Console.WriteLine(IsBinaryUpdated(binaryInput, new char[] {'0', '1'}, checkVal));
+
+        string hexInput = "101A2B3C";
+        Hex2DTable hex2D = new Hex2DTable { state = HexState.ContainsNone, current = '\0' };
+        Console.WriteLine(IsHex2DTable(hexInput, hexChars, hex2D));
     }
 }

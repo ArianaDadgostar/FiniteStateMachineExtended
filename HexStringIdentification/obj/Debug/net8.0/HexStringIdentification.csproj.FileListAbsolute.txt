@@ -1,0 +1,14 @@
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/bin/Debug/net8.0/HexStringIdentification
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/bin/Debug/net8.0/HexStringIdentification.deps.json
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/bin/Debug/net8.0/HexStringIdentification.runtimeconfig.json
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/bin/Debug/net8.0/HexStringIdentification.dll
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/bin/Debug/net8.0/HexStringIdentification.pdb
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/obj/Debug/net8.0/HexStringIdentification.GeneratedMSBuildEditorConfig.editorconfig
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/obj/Debug/net8.0/HexStringIdentification.AssemblyInfoInputs.cache
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/obj/Debug/net8.0/HexStringIdentification.AssemblyInfo.cs
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/obj/Debug/net8.0/HexStringIdentification.csproj.CoreCompileInputs.cache
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/obj/Debug/net8.0/HexStringIdentification.dll
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/obj/Debug/net8.0/refint/HexStringIdentification.dll
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/obj/Debug/net8.0/HexStringIdentification.pdb
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/obj/Debug/net8.0/HexStringIdentification.genruntimeconfig.cache
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/HexStringIdentification/obj/Debug/net8.0/ref/HexStringIdentification.dll

@@ -36,6 +36,14 @@ class Program
         x111
     };
 
+    enum NFAState
+    {
+        None,
+        First,
+        Second,
+        Final
+    };
+
     const bool VER1 = false;
     static bool IsHexString(string input, char[] hexChars)
     {
@@ -237,12 +245,39 @@ class Program
 
         return false;
     }
+
+    struct NFATable
+    {
+        public NFAState state;
+        public char current;
+    }
+
+    static bool NFAThirdFromEnd(string input, NFATable nfaVar, int index)
+    {
+        if(nfaVar.state == NFAState.Final && index == input.Length) return true;
+        else if(nfaVar.state == NFAState.Final && index < input.Length - 1) return false;
+        else if(index >= input.Length || (input[index] != '0' && input[index] != '1')) return false;
+
+        nfaVar.current = input[index];
+        if(nfaVar.state == NFAState.None && input[index] == '1')
+        {
+            if(NFAThirdFromEnd(input, new NFATable { state = NFAState.First, current = input[index] }, index + 1)) return true;
+            if(NFAThirdFromEnd(input, new NFATable { state = NFAState.None, current = input[index] }, index + 1)) return true;
+
+            return false;
+        }
+        nfaVar.state = (nfaVar.state == NFAState.Second) ? NFAState.Final : nfaVar.state;
+        nfaVar.state = (nfaVar.state == NFAState.First) ? NFAState.Second : nfaVar.state;
+        if(NFAThirdFromEnd(input, nfaVar, index + 1)) return true;
+
+        return false;
+    }
     
     static void Main(string[] args)
     {
         char[] hexChars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
                          'a', 'b', 'c', 'd', 'e', 'f'};
-        //string input = "12345";
+        string input = "12345";
         string binaryInput = "101010101";
         //Console.WriteLine(IsHexString(input, hexChars));
 
@@ -253,7 +288,10 @@ class Program
         Hex2DTable hex2D = new Hex2DTable { state = HexState.ContainsNone, current = '\0' };
         // Console.WriteLine(IsHex2DTable(hexInput, hexChars, hex2D));
 
-        string binaryThirdInput = "100010101011000";
-        Console.WriteLine(IsThirdFromEnd(binaryThirdInput, new ThirdFromLastTable { state = ThirdFromLast.x000, current = '\0' }));
+        string binaryThirdInput = "1010100";
+        // Console.WriteLine(IsThirdFromEnd(binaryThirdInput, new ThirdFromLastTable { state = ThirdFromLast.x000, current = '\0' }));
+
+        bool result = NFAThirdFromEnd(binaryThirdInput, new NFATable { state = NFAState.None, current = '\0' }, 0);
+        Console.WriteLine(result);
     }
 }

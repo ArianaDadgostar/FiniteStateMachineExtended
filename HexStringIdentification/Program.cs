@@ -24,6 +24,18 @@ class Program
         Contains101
     };
 
+    enum ThirdFromLast
+    {
+        x000,
+        x001,
+        x010,
+        x011,
+        x100,
+        x101,
+        x110,
+        x111
+    };
+
     const bool VER1 = false;
     static bool IsHexString(string input, char[] hexChars)
     {
@@ -181,6 +193,50 @@ class Program
 
         return false;
     }
+
+    struct ThirdFromLastTable
+    {
+        public ThirdFromLast state;
+        public char current;
+    }
+
+    static bool IsThirdFromEnd(string input, ThirdFromLastTable value)
+    {
+        Dictionary<ThirdFromLastTable, ThirdFromLast> transitions = new Dictionary<ThirdFromLastTable, ThirdFromLast>
+        {
+            { new ThirdFromLastTable { state = ThirdFromLast.x000, current = '0' }, ThirdFromLast.x000 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x001, current = '0' }, ThirdFromLast.x010 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x010, current = '0' }, ThirdFromLast.x100 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x011, current = '0' }, ThirdFromLast.x110 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x100, current = '0' }, ThirdFromLast.x000 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x101, current = '0' }, ThirdFromLast.x010 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x110, current = '0' }, ThirdFromLast.x100 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x111, current = '0' }, ThirdFromLast.x110 },
+
+            { new ThirdFromLastTable { state = ThirdFromLast.x000, current = '1' }, ThirdFromLast.x001 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x001, current = '1' }, ThirdFromLast.x011 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x010, current = '1' }, ThirdFromLast.x101 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x011, current = '1' }, ThirdFromLast.x111 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x100, current = '1' }, ThirdFromLast.x101 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x101, current = '1' }, ThirdFromLast.x011 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x110, current = '1' }, ThirdFromLast.x101 },
+            { new ThirdFromLastTable { state = ThirdFromLast.x111, current = '1' }, ThirdFromLast.x111 },
+        };
+
+        value.state = ThirdFromLast.x000;
+
+        foreach(char c in input)
+        {
+            if(c != '0' && c != '1') return false;
+
+            value.current = c;
+            value.state = transitions[value];
+        }
+
+        if(value.state == ThirdFromLast.x100 || value.state == ThirdFromLast.x101 || value.state == ThirdFromLast.x110 || value.state == ThirdFromLast.x111) return true;
+
+        return false;
+    }
     
     static void Main(string[] args)
     {
@@ -195,6 +251,9 @@ class Program
 
         string hexInput = "10A2B3C";
         Hex2DTable hex2D = new Hex2DTable { state = HexState.ContainsNone, current = '\0' };
-        Console.WriteLine(IsHex2DTable(hexInput, hexChars, hex2D));
+        // Console.WriteLine(IsHex2DTable(hexInput, hexChars, hex2D));
+
+        string binaryThirdInput = "100010101011000";
+        Console.WriteLine(IsThirdFromEnd(binaryThirdInput, new ThirdFromLastTable { state = ThirdFromLast.x000, current = '\0' }));
     }
 }

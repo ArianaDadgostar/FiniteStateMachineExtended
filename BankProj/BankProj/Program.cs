@@ -7,8 +7,11 @@ using System;
 using System.Transactions;
 using System.Data;
 using System.Diagnostics;
+using Microsoft.VisualBasic;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 
-enum Actions
+public enum Actions
 {
     LoggedIn,
     NotLoggedIn,
@@ -18,112 +21,113 @@ enum Actions
     View
 };
 
-class BankAccount
+class Bank
+{
+    static public Dictionary<string, BankAccount> accounts = new Dictionary<string, BankAccount>()
+    {
+        {"timmy", new BankAccount("1234")},
+        {"ella", new BankAccount(":D")},
+        {"bart", new BankAccount("password")}
+    };
+
+    public bool Login(string username, string password)
+    {
+        if(!accounts.ContainsKey(username) || accounts[username].password != password) return true;
+
+        accounts[username].state = Actions.LoggedIn;
+        return true;
+    }
+
+    public bool Deposit(string username, int deposit)
+    {
+        if(!accounts.ContainsKey(username)) return false;
+
+        BankAccount account = accounts[username];
+        account.wanted = Actions.Deposit;
+
+        return account.transitions[(account.state, account.wanted)](string.Empty, deposit);
+    }
+
+    public bool View(string username)
+    {
+        if(!accounts.ContainsKey(username)) return false;
+
+        BankAccount account = accounts[username];
+        account.wanted = Actions.View;
+
+        return account.transitions[(account.state, account.wanted)](username, 0);
+    }
+    
+    public bool Withdraw(string username, int amount)
+    {
+        if(!accounts.ContainsKey(username)) return false;
+
+        BankAccount account = accounts[username];
+        account.wanted = Actions.Withdraw;
+
+        return account.transitions[(account.state, account.wanted)](username, amount);
+    }
+}
+
+public class BankAccount
 {
     public Actions state;
     public Actions wanted;
+
+    public string password;
+
     int balance;
-    
-    public int getBalance()
+
+    public Dictionary<(Actions, Actions), Func<string, int, bool>> transitions;
+
+    public BankAccount(string password)
     {
-        return balance;
+        state = Actions.NotLoggedIn;
+        wanted = Actions.Login;
+
+        this.password = password;
+        
+        transitions = new Dictionary<(Actions, Actions), Func<string, int, bool>>()
+        {
+            {(Actions.LoggedIn, Actions.Withdraw), this.Withdraw},
+            {(Actions.LoggedIn, Actions.Deposit), this.Deposit},
+            {(Actions.LoggedIn, Actions.View), this.View},
+
+            {(Actions.NotLoggedIn, Actions.Withdraw), new Func<string, int, bool> ((s, i) => false)},
+            {(Actions.NotLoggedIn, Actions.Deposit), this.Deposit},
+            {(Actions.NotLoggedIn, Actions.View), new Func<string, int, bool> ((s, i) => false)},
+        };
     }
 
-    public void deposit(int deposit)
+    public bool Withdraw(string blank, int amount)
     {
-        balance += deposit;
+        balance -= amount;
+        return true;
     }
-    
-    public void withdraw(int withdrawal)
+
+    public bool Deposit(string blank, int amount)
     {
-        balance -= withdrawal;
+        balance += amount;
+        return true;
+    }
+
+    public bool View(string blank, int blank2)
+    {
+        Console.WriteLine($"Your balance is: {balance}");
+        return true;
     }
 }
 
 class Program
 {
-    static Dictionary<string, string> credentials = new Dictionary<string, string>()
-    {
-        {"timmy", "1234"},
-        {"ella", ":D"},
-        {"bart", "bart"}
-    };
-
-    static void Login(ref BankAccount account)
-    {
-        Console.WriteLine("username:");
-        string username = Console.ReadLine();
-        Console.WriteLine("password:");
-        string password = Console.ReadLine();
-
-        account.state = (credentials.ContainsKey(username) && credentials[username] == password) ? Actions.LoggedIn : Actions.NotLoggedIn;
-    }
-
-    static void Deposit(ref BankAccount account)
-    {
-        Console.WriteLine("How much?");
-        int deposit = int.Parse(Console.ReadLine());
-
-        account.deposit(deposit);
-    }
-
-    static void Withdraw(ref BankAccount account)
-    {
-        Console.WriteLine("How much?");
-        int withdrawal = int.Parse(Console.ReadLine());
-
-        account.withdraw(withdrawal);
-    }
-
-    static void View(ref BankAccount account)
-    {
-        Console.WriteLine($"Your balance is: {account.getBalance()}");
-    }
-    
-    static void BankAction(ref BankAccount account)
-    {
-        Dictionary<(Actions, Actions), Action<BankAccount>> transitions = new Dictionary<(Actions, Actions), Action< BankAccount>>
-        {
-            {(Actions.LoggedIn, Actions.Withdraw), (acc) => Withdraw(ref acc)},
-            {(Actions.LoggedIn, Actions.Deposit), (acc) => Deposit(ref acc)},
-            {(Actions.LoggedIn, Actions.View), (acc) => View(ref acc)},
-            {(Actions.LoggedIn, Actions.Login), (acc) => Login(ref acc)},
-
-            {(Actions.NotLoggedIn, Actions.Withdraw), (acc) => Login(ref acc)},
-            {(Actions.NotLoggedIn, Actions.Deposit), (acc) => Deposit(ref acc)},
-            {(Actions.NotLoggedIn, Actions.View), (acc) => Login(ref acc)},
-            {(Actions.NotLoggedIn, Actions.Login), (acc) => Login(ref acc)}
-        };
-        Dictionary<string, Actions> wanted = new Dictionary<string, Actions>
-        {
-            {"Login", Actions.Login},
-            {"View", Actions.View},
-            {"Deposit", Actions.Deposit},
-            {"Withdraw", Actions.Withdraw}
-        };
-
-        Login(ref account);
-
-        Actions previous = account.state;
-
-        while(true)
-        {
-            Console.WriteLine("What next? (Login, Withdraw, Deposit, View)");
-
-            account.wanted = wanted[Console.ReadLine()];
-
-            transitions[(account.state, account.wanted)](account);
-
-            account.state = previous;
-        }
-    }
-
     static void Main(string[] args)
     {
-        BankAccount account = new BankAccount();
+        Bank bank = new();
 
-        account.state = Actions.Login;
-
-        BankAction(ref account);
+        bank.Login("timmy", "1234");
+        bank.Deposit("timmy", 100);
+        bank.View("timmy");
+        bank.Login("ella", ":");
+        Console.WriteLine(bank.Withdraw("ella", 50));
     }
 }

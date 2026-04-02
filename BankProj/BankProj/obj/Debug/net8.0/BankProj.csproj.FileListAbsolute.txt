@@ -1,0 +1,15 @@
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/bin/Debug/net8.0/BankProj
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/bin/Debug/net8.0/BankProj.deps.json
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/bin/Debug/net8.0/BankProj.runtimeconfig.json
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/bin/Debug/net8.0/BankProj.dll
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/bin/Debug/net8.0/BankProj.pdb
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/BankProj.GeneratedMSBuildEditorConfig.editorconfig
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/BankProj.AssemblyInfoInputs.cache
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/BankProj.AssemblyInfo.cs
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/BankProj.csproj.CoreCompileInputs.cache
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/BankProj.sourcelink.json
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/BankProj.dll
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/refint/BankProj.dll
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/BankProj.pdb
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/BankProj.genruntimeconfig.cache
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BankProj/BankProj/obj/Debug/net8.0/ref/BankProj.dll

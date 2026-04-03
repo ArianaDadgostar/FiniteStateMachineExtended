@@ -272,6 +272,133 @@ class Program
 
         return false;
     }
+
+    class GenericDFA<T>
+    {
+        public HashSet<T> states;
+        public HashSet<char> alphabet;
+        public T startState;
+        public HashSet<T> acceptingStates;
+        public Dictionary<T, Dictionary<char, T>> transitions;
+        public T currentState;
+
+        public GenericDFA(HashSet<T> states, HashSet<char> alphabet, T startState, HashSet<T> acceptingStates, Dictionary<T, Dictionary<char, T>> transitions)
+        {
+            this.states = states;
+            this.alphabet = alphabet;
+            this.startState = startState;
+            this.acceptingStates = acceptingStates;
+            this.transitions = transitions;
+            currentState = startState;
+        }
+
+        public bool ProcessInput(string input)
+        {
+            foreach(char c in input)
+            {
+                if(!alphabet.Contains(c)) return false;
+
+                currentState = transitions[currentState][c];
+            }
+
+            if(acceptingStates.Contains(currentState)) return true;
+
+            return false;
+        }
+    }
+
+    static public void BinaryCheckWithGenericDFA(string input)
+    {
+        #region ThirdFromLast DFA Transition Endings
+
+        Dictionary<char, ThirdFromLast> transitionOutputx000 = new Dictionary<char, ThirdFromLast>
+        {
+            { '0', ThirdFromLast.x000 },
+            { '1', ThirdFromLast.x001 }
+        };
+
+        Dictionary<char, ThirdFromLast> transitionOutputx001 = new Dictionary<char, ThirdFromLast>
+        {
+            { '0', ThirdFromLast.x010 },
+            { '1', ThirdFromLast.x011 }
+        };
+
+        Dictionary<char, ThirdFromLast> transitionOutputx010 = new Dictionary<char, ThirdFromLast>
+        {
+            { '0', ThirdFromLast.x100 },
+            { '1', ThirdFromLast.x101 }
+        };
+
+        Dictionary<char, ThirdFromLast> transitionOutputx011 = new Dictionary<char, ThirdFromLast>
+        {
+            { '0', ThirdFromLast.x110 },
+            { '1', ThirdFromLast.x111 }
+        };
+
+        Dictionary<char, ThirdFromLast> transitionOutputx100 = new Dictionary<char, ThirdFromLast>
+        {
+            { '0', ThirdFromLast.x000 },
+            { '1', ThirdFromLast.x001 }
+        };
+
+        Dictionary<char, ThirdFromLast> transitionOutputx101 = new Dictionary<char, ThirdFromLast>
+        {
+            { '0', ThirdFromLast.x010 },
+            { '1', ThirdFromLast.x011 }
+        };
+
+        Dictionary<char, ThirdFromLast> transitionOutputx110 = new Dictionary<char, ThirdFromLast>
+        {
+            { '0', ThirdFromLast.x100 },
+            { '1', ThirdFromLast.x101 }
+        };
+
+        Dictionary<char, ThirdFromLast> transitionOutputx111 = new Dictionary<char, ThirdFromLast>
+        {
+            { '0', ThirdFromLast.x110 },
+            { '1', ThirdFromLast.x111 }
+        };
+
+        #endregion
+
+        Dictionary<ThirdFromLast, Dictionary<char, ThirdFromLast>> transitions = new Dictionary<ThirdFromLast, Dictionary<char, ThirdFromLast>>
+        {
+            { ThirdFromLast.x000, transitionOutputx000 },
+            { ThirdFromLast.x001, transitionOutputx001 },
+            { ThirdFromLast.x010, transitionOutputx010 },
+            { ThirdFromLast.x011, transitionOutputx011 },
+            { ThirdFromLast.x100, transitionOutputx100 },
+            { ThirdFromLast.x101, transitionOutputx101 },
+            { ThirdFromLast.x110, transitionOutputx110 },
+            { ThirdFromLast.x111, transitionOutputx111 }
+        };
+
+        HashSet<ThirdFromLast> states = new HashSet<ThirdFromLast>
+        {
+            ThirdFromLast.x000,
+            ThirdFromLast.x001,
+            ThirdFromLast.x010,
+            ThirdFromLast.x011,
+            ThirdFromLast.x100,
+            ThirdFromLast.x101,
+            ThirdFromLast.x110,
+            ThirdFromLast.x111
+        };
+
+        HashSet<char> alphabet = new HashSet<char> { '0', '1' };
+        ThirdFromLast startState = ThirdFromLast.x000;
+        HashSet<ThirdFromLast> acceptingStates = new HashSet<ThirdFromLast>
+        {
+            ThirdFromLast.x100,
+            ThirdFromLast.x101,
+            ThirdFromLast.x110,
+            ThirdFromLast.x111
+        };
+
+        GenericDFA<ThirdFromLast> thirdFromLastDFA = new GenericDFA<ThirdFromLast>(states, alphabet, startState, acceptingStates, transitions);
+        bool result = thirdFromLastDFA.ProcessInput(input);
+        Console.WriteLine(result);
+    }
     
     static void Main(string[] args)
     {
@@ -292,6 +419,8 @@ class Program
         // Console.WriteLine(IsThirdFromEnd(binaryThirdInput, new ThirdFromLastTable { state = ThirdFromLast.x000, current = '\0' }));
 
         bool result = NFAThirdFromEnd(binaryThirdInput, new NFATable { state = NFAState.None, current = '\0' }, 0);
-        Console.WriteLine(result);
+        // Console.WriteLine(result);
+
+        BinaryCheckWithGenericDFA(binaryThirdInput);
     }
 }

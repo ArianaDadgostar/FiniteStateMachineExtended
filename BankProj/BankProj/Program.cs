@@ -60,7 +60,7 @@ class Bank
     
     public bool Withdraw(string username, int amount)
     {
-        if(!accounts.ContainsKey(username)) return false;
+        if(!accounts.ContainsKey(username) || amount > accounts[username].balance) return false;
 
         BankAccount account = accounts[username];
         account.wanted = Actions.Withdraw;
@@ -76,7 +76,7 @@ public class BankAccount
 
     public string password;
 
-    int balance;
+    public int balance;
 
     public Dictionary<(Actions, Actions), Func<string, int, bool>> transitions;
 

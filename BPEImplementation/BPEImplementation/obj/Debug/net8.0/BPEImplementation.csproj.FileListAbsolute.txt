@@ -1,0 +1,15 @@
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/bin/Debug/net8.0/BPEImplementation
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/bin/Debug/net8.0/BPEImplementation.deps.json
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/bin/Debug/net8.0/BPEImplementation.runtimeconfig.json
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/bin/Debug/net8.0/BPEImplementation.dll
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/bin/Debug/net8.0/BPEImplementation.pdb
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/BPEImplementation.GeneratedMSBuildEditorConfig.editorconfig
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/BPEImplementation.AssemblyInfoInputs.cache
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/BPEImplementation.AssemblyInfo.cs
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/BPEImplementation.csproj.CoreCompileInputs.cache
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/BPEImplementation.sourcelink.json
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/BPEImplementation.dll
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/refint/BPEImplementation.dll
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/BPEImplementation.pdb
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/BPEImplementation.genruntimeconfig.cache
+/Users/arianadadgostar/Documents/Github Repositories/FSMCamp/BPEImplementation/BPEImplementation/obj/Debug/net8.0/ref/BPEImplementation.dll
